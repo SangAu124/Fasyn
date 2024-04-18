@@ -15,45 +15,55 @@ struct AddMeetingView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                VStack {
-                    HStack {
-                        Text("Meeting Title : ")
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    VStack {
+                        VStack {
+                            HStack {
+                                Text("Add Meeting")
+                                    .font(.system(size: 35, weight: .semibold, design: .default))
+                                    .padding()
+                                Spacer()
+                            }
+                            HStack {
+                                Text("Meeting Title : ")
+                                    .padding()
+                                TextField("your meetint title", text: $meetingTitle)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(1)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .autocapitalization(.none)
+                                    .disableAutocorrection(false)
+                                    .keyboardType(.webSearch)
+                            }
+                        
+                            DatePicker(
+                                "Select Date and Time",
+                                selection: $selectedDate,
+                                displayedComponents: [.date, .hourAndMinute]
+                            )
+                            .environment(\.locale, .init(identifier: "ko_KR"))
+                            .datePickerStyle(.graphical)
+                            .labelsHidden()
                             .padding()
-                        TextField("your meetint title", text: $meetingTitle)
-                            .multilineTextAlignment(.leading)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .autocapitalization(.none)
-                            .disableAutocorrection(false)
+                            
+                        }
+                        
+                        Spacer()
+                        
+                        Button("Save") {
+                            let newMeeting = Meeting(title: meetingTitle, date: selectedDate)
+                            meetings.append(newMeeting)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                        .padding()
                     }
-                    .padding(.top, 20)
-                    
-                    DatePicker(
-                        "Select Date and Time",
-                        selection: $selectedDate,
-                        displayedComponents: [.date, .hourAndMinute]
-                    )
-                    .environment(\.locale, .init(identifier: "ko_KR"))
-                    .datePickerStyle(.graphical)
-                    .labelsHidden()
-                    .padding()
-                    
+                    .navigationBarItems(trailing: Button("Cancel") {
+                        self.presentationMode.wrappedValue.dismiss()
+                    })
                 }
-                
-                Spacer()
-                
-                Button("Save") {
-                    let newMeeting = Meeting(title: meetingTitle, date: selectedDate)
-                    meetings.append(newMeeting)
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-                .padding()
             }
-            .navigationBarTitle("Add Meeting")
-            .navigationBarItems(trailing: Button("Cancel") {
-                self.presentationMode.wrappedValue.dismiss()
-            })
         }
     }
 }
