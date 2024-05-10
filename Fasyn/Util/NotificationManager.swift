@@ -41,14 +41,43 @@ class NotificationManager {
     
     func scheduleNotification(trigger: TriggerType) {
         let content = UNMutableNotificationContent()
-        content.title = "This is my first Notification"
-        content.subtitle = "This was so easy!"
+        content.title = "회의를 시작 할 시간이에요!"
+        content.subtitle = "구성원들에게 연락을 돌려볼까용?"
         content.sound = .default
         content.badge = 1
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger.trigger)
         UNUserNotificationCenter.current().add(request)
     }
+    
+    
+    func scheduleNotification(for meeting: Meeting) {
+        let center = UNUserNotificationCenter.current()
+
+        let content = UNMutableNotificationContent()
+        content.title = meeting.title
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a" // Customize format for time (e.g., 11:30 AM)
+        content.body = "회의 시작: \(formatter.string(from: meeting.date))"
+
+        let sound = UNNotificationSound.default
+
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: meeting.date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false) // 반복 여부 설정 (false: 단 한번, true: 반복)
+
+        let identifier = meeting.id.uuidString
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+        center.add(request) { error in
+            if let error = error {
+                print("알림 예약 실패: \(error)")
+            } else {
+                print("알림 예약 성공: \(identifier)")
+            }
+        }
+    }
+
     
     func cancelNotification() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
