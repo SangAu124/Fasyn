@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var meetings: [Meeting] = []
+    @State var meetings: [Meeting] = []
     @State private var isPresentingAddMeetingView = false
     @State private var isEditing = false
     let dateFormatter = DateFormatter()
+    let defaults = UserDefaults.standard
+    let meetingManager = MeetingsManager.shared
     
     var body: some View {
         NavigationView {
@@ -24,7 +26,7 @@ struct ContentView: View {
                 }
                 
                 List {
-                    ForEach(meetings, id: \.id) { meeting in
+                    ForEach(meetingManager.loadMeetings(), id: \.id) { meeting in
                         NavigationLink(destination: MeetingDetailView(meeting: meeting)) {
                             MeetingCellView(meeting: meeting)
                                 .foregroundColor(.black)
@@ -54,22 +56,21 @@ struct ContentView: View {
                 }
             )
             .sheet(isPresented: $isPresentingAddMeetingView) {
-                AddMeetingView(meetings: $meetings)
+                AddMeetingView()
             }
             .environment(\.editMode, .constant(isEditing ? EditMode.active : EditMode.inactive))
         }
-    }
-    
-    private func setDate(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy년 M월 d일 a h시 m분"
-        dateFormatter.locale = Locale(identifier:"ko_KR")
-        let convertStr = dateFormatter.string(from: date)
-        return convertStr
+        .onAppear {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+        
     }
     
     private func deleteMeeting(at offsets: IndexSet) {
-        meetings.remove(atOffsets: offsets)
+        if let index = offsets.first {
+            let meetingToDelete = meetingManager.loadMeetings()[index]
+            meetingManager.deleteMeeting(meetingToDelete)
+        }
     }
 }
 

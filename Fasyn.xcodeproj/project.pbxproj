@@ -18,6 +18,7 @@
 		0DF0ECA22BCFF07E005DFB64 /* DetailMeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF0ECA12BCFF07E005DFB64 /* DetailMeetingView.swift */; };
 		0DF0ECA42BCFF09B005DFB64 /* MeetingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF0ECA32BCFF09B005DFB64 /* MeetingCellView.swift */; };
 		0DF0ECA72BCFF11D005DFB64 /* Meeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF0ECA62BCFF11D005DFB64 /* Meeting.swift */; };
+		583622882BF32AA2009E4F16 /* MeetingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583622872BF32AA2009E4F16 /* MeetingManager.swift */; };
 		58D4D5D52BEC8CF80092373B /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D4D5D42BEC8CF80092373B /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		0DF0ECA12BCFF07E005DFB64 /* DetailMeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMeetingView.swift; sourceTree = "<group>"; };
 		0DF0ECA32BCFF09B005DFB64 /* MeetingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCellView.swift; sourceTree = "<group>"; };
 		0DF0ECA62BCFF11D005DFB64 /* Meeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meeting.swift; sourceTree = "<group>"; };
+		583622872BF32AA2009E4F16 /* MeetingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingManager.swift; sourceTree = "<group>"; };
 		58D4D5D42BEC8CF80092373B /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,11 +106,11 @@
 		0DF0EC732BCFDBFC005DFB64 /* Fasyn */ = {
 			isa = PBXGroup;
 			children = (
-				58D4D5D32BEC8CEB0092373B /* Util */,
-				0DF0ECA02BCFDD77005DFB64 /* View */,
-				0DF0ECA52BCFF110005DFB64 /* Model */,
 				0DF0EC742BCFDBFC005DFB64 /* FasynApp.swift */,
 				0DF0EC782BCFDBFD005DFB64 /* Assets.xcassets */,
+				0DF0ECA02BCFDD77005DFB64 /* View */,
+				0DF0ECA52BCFF110005DFB64 /* Model */,
+				58D4D5D32BEC8CEB0092373B /* Util */,
 				0DF0EC7A2BCFDBFD005DFB64 /* Preview Content */,
 			);
 			path = Fasyn;
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				58D4D5D42BEC8CF80092373B /* NotificationManager.swift */,
+				583622872BF32AA2009E4F16 /* MeetingManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				0DF0EC772BCFDBFC005DFB64 /* ContentView.swift in Sources */,
 				0DF0ECA72BCFF11D005DFB64 /* Meeting.swift in Sources */,
 				0DF0ECA22BCFF07E005DFB64 /* DetailMeetingView.swift in Sources */,
+				583622882BF32AA2009E4F16 /* MeetingManager.swift in Sources */,
 				58D4D5D52BEC8CF80092373B /* NotificationManager.swift in Sources */,
 				0DF0EC9F2BCFDD62005DFB64 /* AddMeetingView.swift in Sources */,
 				0DF0ECA42BCFF09B005DFB64 /* MeetingCellView.swift in Sources */,

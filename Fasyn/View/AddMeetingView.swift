@@ -9,10 +9,8 @@ import SwiftUI
 
 struct AddMeetingView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var meetings: [Meeting]
     @State private var meetingTitle = ""
     @State private var selectedDate = Date() // 선택된 날짜를 추적하는 상태 변수
-    let manager = NotificationManager.instance
     
     var body: some View {
         NavigationView {
@@ -55,11 +53,12 @@ struct AddMeetingView: View {
                         
                         Button("저장") {
                             let newMeeting = Meeting(title: meetingTitle, date: selectedDate)
-                            meetings.append(newMeeting)
+                            let meetingManager = MeetingsManager.shared
+                            let notiManager = NotificationManager.instance
                             
-                            // MARK: - 추가 함수 호출
-                            manager.scheduleNotification(for: newMeeting)
                             
+                            meetingManager.saveMeeting(newMeeting)
+                            notiManager.scheduleNotification(for: newMeeting)
                             self.presentationMode.wrappedValue.dismiss()
                         }
                         .padding()
@@ -74,5 +73,5 @@ struct AddMeetingView: View {
 }
 
 #Preview {
-    AddMeetingView(meetings: .constant([Meeting(id: UUID(), title: "", date: Date())]))
+    AddMeetingView()
 }

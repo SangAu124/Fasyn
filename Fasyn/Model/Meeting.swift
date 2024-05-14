@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Meeting: Identifiable {
+struct Meeting: Identifiable, Codable {
     var id = UUID()
     var title: String
     var date: Date
