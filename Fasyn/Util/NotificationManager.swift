@@ -53,15 +53,16 @@ class NotificationManager {
     
     func scheduleNotification(for meeting: Meeting) {
         let center = UNUserNotificationCenter.current()
-
         let content = UNMutableNotificationContent()
-        content.title = meeting.title
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a" // Customize format for time (e.g., 11:30 AM)
-        content.body = "회의 시작: \(formatter.string(from: meeting.date))"
-
-        let sound = UNNotificationSound.default
+        
+        
+        content.title = "회의를 시작 할 시간이에요!"
+        content.subtitle = "회의 주제 : \(meeting.title)"
+        content.body = "시작 시간: \(formatter.string(from: meeting.date))"
+        content.sound = .default
+        content.badge = 1
 
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: meeting.date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false) // 반복 여부 설정 (false: 단 한번, true: 반복)

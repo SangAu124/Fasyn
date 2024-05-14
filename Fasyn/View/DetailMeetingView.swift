@@ -20,3 +20,7 @@ struct MeetingDetailView: View {
         .navigationBarTitle("Meeting Detail")
     }
 }
+
+#Preview {
+    MeetingDetailView(meeting: Meeting(title: "testtest", date: Date()))
+}

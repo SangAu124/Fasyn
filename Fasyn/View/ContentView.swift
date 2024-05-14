@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var meetings: [Meeting] = [Meeting(id: UUID(), title: "asdfasdf", date: Date())]
+    @State private var meetings: [Meeting] = []
     @State private var isPresentingAddMeetingView = false
+    @State private var isEditing = false
     let dateFormatter = DateFormatter()
     
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    Text("Family Meetings")
+                    Text("회의 리스트")
                         .font(.system(size: 35, weight: .semibold, design: .default))
                         .padding()
                     Spacer()
@@ -35,15 +36,27 @@ struct ContentView: View {
                 Button(action: {
                     isPresentingAddMeetingView.toggle()
                 }) {
-                    Text("Add Meeting")
+                    Text("회의 추가")
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
             }
-            .navigationBarItems(trailing: EditButton())
+            .navigationBarItems(
+                leading: isEditing ? Button(action: {
+                    isEditing.toggle()
+                }) {
+                    Text("완료")
+                } : nil,
+                trailing: isEditing ? nil : Button(action: {
+                    isEditing.toggle()
+                }) {
+                    Text("편집")
+                }
+            )
             .sheet(isPresented: $isPresentingAddMeetingView) {
                 AddMeetingView(meetings: $meetings)
             }
+            .environment(\.editMode, .constant(isEditing ? EditMode.active : EditMode.inactive))
         }
     }
     
@@ -59,6 +72,7 @@ struct ContentView: View {
         meetings.remove(atOffsets: offsets)
     }
 }
+
 
 #Preview {
     ContentView()

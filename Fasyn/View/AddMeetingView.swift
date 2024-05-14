@@ -16,79 +16,59 @@ struct AddMeetingView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 40) {
-                        Button("Request Permission") {
-                            manager.requestAuthorization()
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    VStack {
+                        VStack {
+                            HStack {
+                                Text("회의 추가")
+                                    .font(.system(size: 35, weight: .semibold, design: .default))
+                                    .padding()
+                                Spacer()
+                            }
+                            HStack {
+                                Text("회의 주제 : ")
+                                    .padding()
+                                TextField("회의 주제를 입력해주세요!", text: $meetingTitle)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(1)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .autocapitalization(.none)
+                                    .disableAutocorrection(false)
+                                    .keyboardType(.webSearch)
+                            }
+                            
+                            DatePicker(
+                                "Select Date and Time",
+                                selection: $selectedDate,
+                                displayedComponents: [.date, .hourAndMinute]
+                            )
+                            .environment(\.locale, .init(identifier: "ko_KR"))
+                            .datePickerStyle(.graphical)
+                            .labelsHidden()
+                            .padding()
+                            
                         }
-                        Button("Schedule Notification Time") {
-                            manager.scheduleNotification(trigger: .time)
+                        
+                        Spacer()
+                        
+                        Button("저장") {
+                            let newMeeting = Meeting(title: meetingTitle, date: selectedDate)
+                            meetings.append(newMeeting)
+                            
+                            // MARK: - 추가 함수 호출
+                            manager.scheduleNotification(for: newMeeting)
+                            
+                            self.presentationMode.wrappedValue.dismiss()
                         }
-                        Button("Schedule Notification Calendar") {
-                            manager.scheduleNotification(trigger: .calendar)
-                        }
-                        Button("Schedule Notification Location") {
-                            manager.scheduleNotification(trigger: .location)
-                        }
-                        Button("Scedule Delete") {
-                            manager.cancelNotification()
-                        }
+                        .padding()
                     }
-                    .onAppear {
-                        UIApplication.shared.applicationIconBadgeNumber = 0
-                    }
-            
-//            ScrollViewReader { proxy in
-//                ScrollView(showsIndicators: false) {
-//                    VStack {
-//                        VStack {
-//                            HStack {
-//                                Text("Add Meeting")
-//                                    .font(.system(size: 35, weight: .semibold, design: .default))
-//                                    .padding()
-//                                Spacer()
-//                            }
-//                            HStack {
-//                                Text("Meeting Title : ")
-//                                    .padding()
-//                                TextField("your meetint title", text: $meetingTitle)
-//                                    .multilineTextAlignment(.leading)
-//                                    .lineLimit(1)
-//                                    .frame(maxWidth: .infinity)
-//                                    .padding()
-//                                    .autocapitalization(.none)
-//                                    .disableAutocorrection(false)
-//                                    .keyboardType(.webSearch)
-//                            }
-//                            
-//                            DatePicker(
-//                                "Select Date and Time",
-//                                selection: $selectedDate,
-//                                displayedComponents: [.date, .hourAndMinute]
-//                            )
-//                            .environment(\.locale, .init(identifier: "ko_KR"))
-//                            .datePickerStyle(.graphical)
-//                            .labelsHidden()
-//                            .padding()
-//                            
-//                        }
-//                        
-//                        Spacer()
-//                        
-//                        Button("Save") {
-//                            let newMeeting = Meeting(title: meetingTitle, date: selectedDate)
-//                            meetings.append(newMeeting)
-//                            
-//                            // MARK: - 추가 함수 호출
-//                            
-//                            self.presentationMode.wrappedValue.dismiss()
-//                        }
-//                        .padding()
-//                    }
-//                    .navigationBarItems(trailing: Button("Cancel") {
-//                        self.presentationMode.wrappedValue.dismiss()
-//                    })
-//                }
-//            }
+                    .navigationBarItems(trailing: Button("취소") {
+                        self.presentationMode.wrappedValue.dismiss()
+                    })
+                }
+            }
         }
     }
 }
